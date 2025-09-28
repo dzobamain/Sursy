@@ -1,8 +1,10 @@
 # ./main.py
 
 import sys
+from util.log import logger
 
 def main(argv) -> int:
+    logger.info("Program started")
     print("Arguments:", argv)
     
     return -1

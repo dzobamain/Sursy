@@ -16,3 +16,6 @@ venv/
 .DS_Store
 # Windows
 Thumbs.db
+
+# temp
+var/*
