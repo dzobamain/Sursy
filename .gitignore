@@ -1,0 +1,18 @@
+# ./.gitignore
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+env/
+venv/
+
+# IDE / editor settings
+.vscode/
+.idea/
+
+# MacOS
+.DS_Store
+# Windows
+Thumbs.db

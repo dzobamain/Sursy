@@ -1,3 +1,5 @@
+# ./main.py
+
 import sys
 
 def main(argv) -> int:
