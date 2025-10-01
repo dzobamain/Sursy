@@ -1,0 +1,40 @@
+/* qt5ui/style/mainwindow.css */
+
+/* Input line */
+QLineEdit {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 16px;
+}
+QLineEdit:focus {
+    border: 2px solid #0078d7;
+}
+
+/* Default button style */
+QPushButton {
+    background-color: #0078d7;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 5px 15px;
+}
+QPushButton:hover {
+    background-color: #005a9e;
+}
+QPushButton:pressed {
+    background-color: #003f6b;
+}
+
+/* Settings button (by objectName) */
+QPushButton#settings_button {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+QPushButton#settings_button:hover {
+    background-color: #f0f0f0;
+}
+QPushButton#settings_button:pressed {
+    background-color: #e0e0e0;
+}

@@ -19,7 +19,6 @@ class CustomFormatter(logging.Formatter):
             self._style._fmt = "[%(levelname)s][%(asctime)s][%(pathname)s:%(lineno)d] %(funcName)s: %(message)s"
         return super().format(record)
 
-
 # Global logger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

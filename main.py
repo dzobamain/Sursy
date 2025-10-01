@@ -1,4 +1,4 @@
-# ./main.py
+# main.py
 
 import sys
 from PyQt5.QtWidgets import QApplication
@@ -7,11 +7,11 @@ from qt5ui.mainwindow import MainWindow
 from util.log import logger
 
 def main(argv) -> int:
-    logger.info("Program started")
+    logger.info("Enter")
     
     app = QApplication(argv)
-    window = MainWindow()
-    window.show()
+    window = MainWindow() # Create window object
+    window.show() # Show the window
     app.exec_()
     
     logger.info("Program ended")
