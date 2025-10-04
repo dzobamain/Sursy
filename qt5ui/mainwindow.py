@@ -9,13 +9,16 @@ from PyQt5.QtGui import QIcon
 
 from util.log import logger
 from qt5ui.util import load_stylesheet
+from qt5ui.uiconfig import UiConfig
 
 class MainWindow(QWidget):
+    SET_ICON = "image/icon/settings.png"
+    
     def __init__(self):
         logger.info("Enter")
         super().__init__()
 
-        self.setStyleSheet(load_stylesheet("qt5ui/style/mainwindow.css"))
+        self.setStyleSheet(load_stylesheet(UiConfig.MAINWINDOW_STYLE))
         self.init_ui()
         
     def closeEvent(self, event):
@@ -51,7 +54,7 @@ class MainWindow(QWidget):
         # Settings button
         self.settings_button = QPushButton()
         self.settings_button.setObjectName("settings_button")  # For QSS selector
-        self.settings_button.setIcon(QIcon("image/icon/settings.png"))
+        self.settings_button.setIcon(QIcon(self.SET_ICON))
         self.settings_button.setFixedSize(40, 40)
         self.settings_button.clicked.connect(self.on_settings_button_click)
 
@@ -60,7 +63,7 @@ class MainWindow(QWidget):
         row_layout.addWidget(self.settings_button)
 
         # Label for displaying search results
-        self.label = QLabel("")
+        self.label = QLabel()
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setStyleSheet("font-size: 18px; margin-top: 20px;")
 
