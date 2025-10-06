@@ -1,36 +1,54 @@
 /* qt5ui/style/mainwindow.css */
 
-/* Input line */
-QLineEdit {
+/* Search input text */
+QTextEdit#search_input {
     border: 2px solid #ccc;
     border-radius: 10px;
-    padding: 0 10px;
+    padding: 5px 10px;
     font-size: 16px;
+    background-color: #1e1e1e; /* same as background */
+    color: white;
 }
-QLineEdit:focus {
+
+QTextEdit#search_input:focus {
     border: 2px solid #0078d7;
 }
 
-/* Default button style */
-QPushButton {
+/* Remove viewport (scroll area) shadow */
+QTextEdit#search_input QScrollBar {
+    background: transparent;
+    width: 0px;
+}
+
+/* Optional: make the inside highlight blue when focused */
+QTextEdit#search_input:focus {
+    border: 2px solid #0078d7;
+    background-color: #1e1e1e;
+}
+
+/* Search button */
+QPushButton#search_button {
     background-color: #0078d7;
     color: white;
     border-radius: 10px;
+    border: none;
     font-size: 16px;
     padding: 5px 15px;
 }
-QPushButton:hover {
-    background-color: #005a9e;
+QPushButton#search_button:hover {
+    background-color: #1a86dd;
 }
-QPushButton:pressed {
-    background-color: #003f6b;
+QPushButton#search_button:pressed {
+    background-color: #006cc2;
 }
 
-/* Settings button (by objectName) */
+/* Settings button */
 QPushButton#settings_button {
     background-color: white;
     border-radius: 10px;
     border: 1px solid #ccc;
+    font-size: 16px;
+    padding: 5px 15px;
 }
 QPushButton#settings_button:hover {
     background-color: #f0f0f0;

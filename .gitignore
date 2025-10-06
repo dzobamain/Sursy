@@ -9,7 +9,7 @@ env/
 venv/
 
 # IDE / editor settings
-.vscode/
+.vscode
 .idea/
 
 # MacOS
