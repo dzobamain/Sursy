@@ -5,3 +5,4 @@ class UiConfig:
     
     # Path to stylesheet for each window
     MAINWINDOW_STYLE = f"{STYLE_FILES}/mainwindow.css"
+    SETTINGSWINDOW_STYLE = f"{STYLE_FILES}/settingswindow.css"

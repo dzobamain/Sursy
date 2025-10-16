@@ -10,6 +10,8 @@ from PyQt5.QtGui import QIcon
 from util.log import logger
 from qt5ui.util import load_stylesheet
 from qt5ui.uiconfig import UiConfig
+from qt5ui.util import center_window
+from qt5ui.settingswindow import SettingsWindow
 
 class MainWindow(QWidget):
     # Window
@@ -41,7 +43,7 @@ class MainWindow(QWidget):
 
         self.setWindowTitle("Sursy")
         self.resize(self.WIN_HEIGHT, self.WIN_WIDTH)
-        self.center()  # Center the window on screen
+        center_window(self)  # Center the window on screen
 
         # Main vertical layout
         main_layout = QVBoxLayout()
@@ -52,7 +54,7 @@ class MainWindow(QWidget):
         row_layout.setSpacing(10)
 
         self.text_box = QTextEdit()
-        self.text_box.setObjectName("search_input")
+        self.text_box.setObjectName(self.SEAR_INPUT) # For QSS selector
         self.text_box.setPlaceholderText("Enter your text here...")
 
         # Make it visually like QLineEdit
@@ -97,15 +99,17 @@ class MainWindow(QWidget):
     def on_search_button_click(self):
         logger.info("Enter")
         
-        # Для QTextEdit
-        text = self.text_box.toPlainText()  # замість .text()
-        
+        text = self.text_box.toPlainText()
         self.text_box.clear()
         print(f"Your query: {text}")
     
 
     def on_settings_button_click(self):
         logger.info("Enter")
+
+        self.settings_window = SettingsWindow()
+        self.settings_window.show()
+
 
     def center(self):
         logger.info("Enter")
