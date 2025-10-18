@@ -1,6 +1,7 @@
 # util/log.py
 
 import logging
+import inspect
 
 # Log levels and their meaning:
 # DEBUG -> Detailed information, useful for debugging
@@ -11,12 +12,24 @@ import logging
 
 class CustomFormatter(logging.Formatter):
     def format(self, record):
+        class_method = record.funcName
+        try:
+            # Get class through inspect
+            frame = inspect.currentframe()
+            while frame:
+                if frame.f_code.co_name == record.funcName:
+                    cls = frame.f_locals.get('self', None)
+                    if cls:
+                        class_method = f"{type(cls).__name__}.{record.funcName}"
+                        break
+                frame = frame.f_back
+        except Exception:
+            pass
+
         if record.levelno == logging.INFO:
-            # INFO without line number
-            self._style._fmt = "[%(levelname)s][%(asctime)s][%(pathname)s] %(funcName)s: %(message)s"
+            self._style._fmt = f"[%(levelname)s][%(asctime)s][%(pathname)s] {class_method}: %(message)s"
         else:
-            # Other levels with line number
-            self._style._fmt = "[%(levelname)s][%(asctime)s][%(pathname)s:%(lineno)d] %(funcName)s: %(message)s"
+            self._style._fmt = f"[%(levelname)s][%(asctime)s][%(pathname)s:%(lineno)d] {class_method}: %(message)s"
         return super().format(record)
 
 # Global logger

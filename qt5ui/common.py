@@ -1,4 +1,4 @@
-# qt5ui/util.py
+# qt5ui/common.py
 
 from PyQt5.QtWidgets import QDesktopWidget
 

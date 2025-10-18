@@ -8,10 +8,11 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
 from util.log import logger
-from qt5ui.util import load_stylesheet
+from qt5ui.common import load_stylesheet
 from qt5ui.uiconfig import UiConfig
-from qt5ui.util import center_window
+from qt5ui.common import center_window
 from qt5ui.settingswindow import SettingsWindow
+from config import Config
 
 class MainWindow(QWidget):
     # Window
@@ -36,12 +37,15 @@ class MainWindow(QWidget):
     def closeEvent(self, event):
         # Triggered when the window is closed
         logger.info("Main window closed")
+        # Closed SettingsWindow
+        if self.settings_window is not None:
+            self.settings_window.close()
         event.accept()
 
     def init_ui(self):
         logger.info("Enter")
 
-        self.setWindowTitle("Sursy")
+        self.setWindowTitle(Config.PROGRAM_NAME)
         self.resize(self.WIN_HEIGHT, self.WIN_WIDTH)
         center_window(self)  # Center the window on screen
 
