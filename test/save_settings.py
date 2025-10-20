@@ -6,10 +6,13 @@ from config import Config
 
 def start_test():
     settings = Settings()
+    
+    '''
     settings.by_default()
     
     save_to_json(settings, Config.SETTINGS_PATH)
     load_from_json(settings, Config.SETTINGS_PATH)
+    '''
     
     print(settings.__dict__)
 

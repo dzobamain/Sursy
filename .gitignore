@@ -19,3 +19,6 @@ Thumbs.db
 
 # temp
 var/*
+
+# settings
+data/settings.json

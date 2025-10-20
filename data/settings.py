@@ -1,6 +1,8 @@
 # data/settings.py
 
 from util.log import logger
+from data.json_io import load_from_json
+from config import Config
 
 class Settings:
     # How browser tabs should open
@@ -31,9 +33,22 @@ class Settings:
     # Show the program’s “opinion” about each site (True/False)
     program_opinion: bool
     
+    
     def __init__(self):
         logger.info("Enter")
+
+        '''
+        To load data from a file, you first need to create an instance of the class
+        and call by_default(). This initializes the fields so they can be modified.
+        '''
         self.by_default()
+
+        load_from_json(self, Config.SETTINGS_PATH)
+
+        if not self.check_parameters():
+            logger.warning("Invalid parameters detected. Using defaults.")
+            self.by_default()
+
 
     def by_default(self):
         logger.info("Enter")
