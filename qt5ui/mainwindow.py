@@ -19,19 +19,18 @@ class MainWindow(QWidget):
     WIN_HEIGHT = 800
     WIN_WIDTH = 600
     
+    STYLE_PATH = UiConfig.MAINWINDOW_STYLE
+    
     # ObjectNames
     SEAR_INPUT = "search_input"
     SEARCH_BUTTON = "search_button"
     SETTINGS_BUTTON = "settings_button"
-
-    # Icons
-    SETTINGS_BUTTON_ICON = "image/icon/settings.png"
     
     def __init__(self):
         logger.info("Enter")
         super().__init__()
 
-        self.setStyleSheet(load_stylesheet(UiConfig.MAINWINDOW_STYLE))
+        self.setStyleSheet(load_stylesheet(self.STYLE_PATH))
         self.init_ui()
         
     def closeEvent(self, event):
@@ -81,7 +80,7 @@ class MainWindow(QWidget):
         # Settings button
         self.settings_button = QPushButton()
         self.settings_button.setObjectName(self.SETTINGS_BUTTON)  # For QSS selector
-        self.settings_button.setIcon(QIcon(self.SETTINGS_BUTTON_ICON))
+        self.settings_button.setIcon(QIcon(SettingsWindow.SETTINGS_BUTTON_ICON))
         self.settings_button.setFixedSize(40, 40)
         self.settings_button.clicked.connect(self.on_settings_button_click)
 
