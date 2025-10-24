@@ -8,17 +8,15 @@ from qt5ui.common import load_stylesheet, center_window
 from qt5ui.uiconfig import UiConfig
 
 class SettingsWindow(QWidget):
+    STYLE_PATH = UiConfig.SETTINGSWINDOW_STYLE
+    
     # Window
+    WIN_WIDTH = 600
+    WIN_HEIGHT = 400
     WINDOW_NAME = "Settings"
     
     # Icons
     SETTINGS_BUTTON_ICON = "image/icon/settings.png"
-    
-    STYLE_PATH = UiConfig.SETTINGSWINDOW_STYLE
-    
-    # Window size
-    WIN_WIDTH = 600
-    WIN_HEIGHT = 400
     
     def __init__(self):
         logger.info("Enter")
@@ -26,15 +24,14 @@ class SettingsWindow(QWidget):
 
         self.setStyleSheet(load_stylesheet(self.STYLE_PATH))
         self.init_ui()
-        
+
     def closeEvent(self, event):
         # Triggered when the window is closed
         logger.info("Settings window closed")
         event.accept()
 
     def init_ui(self):
-        logger.info("Enter")
-
+        logger.info("Enter init_ui")
         self.setWindowTitle(self.WINDOW_NAME)
         self.resize(self.WIN_WIDTH, self.WIN_HEIGHT)
         center_window(self)
@@ -44,6 +41,7 @@ class SettingsWindow(QWidget):
         layout.setFormAlignment(Qt.AlignTop)
         layout.setHorizontalSpacing(10)
 
+        # Add row with label and widget
         def add_row(label_text, widget):
             row = QHBoxLayout()
             label = QLabel(label_text)
@@ -52,31 +50,71 @@ class SettingsWindow(QWidget):
             row.addWidget(widget, alignment=Qt.AlignRight)
             layout.addRow(row)
 
-        # 1. Dropdown (combobox)
-        combo1 = QComboBox(); combo1.addItems(["1", "2", "3"])
+        # Create resizable QLineEdit
+        def make_resizable_lineedit():
+            line_edit = QLineEdit()
+            line_edit.setMaxLength(3)  # max 3 digits 
+            line_edit.setFixedHeight(40)  # height same as other fields 
+            line_edit.setAlignment(Qt.AlignCenter)  # center text
+            line_edit.textChanged.connect(lambda text, le=line_edit: self.adjust_width_lineedit(le, text))
+            self.adjust_width_lineedit(line_edit, "")
+            return line_edit
+
+        # Create dynamic QComboBox
+        def make_dynamic_combobox(items):
+            combo = QComboBox()
+            combo.addItems(items)
+            combo.setEditable(False)  # user can only select
+
+            # Adjust field width under current text / ширина поля під текст
+            self.adjust_width_combobox(combo)
+
+            # Adjust dropdown width under the longest item / ширина списку під найдовший пункт
+            metrics = combo.fontMetrics()
+            max_text_width = max([metrics.horizontalAdvance(text) for text in items])
+            combo.view().setMinimumWidth(max_text_width + 40)  # + padding
+
+            # Update field width when selection changes / підлаштовуємо ширину при зміні
+            combo.currentTextChanged.connect(lambda text, cb=combo: self.adjust_width_combobox(cb))
+
+            return combo
+
+        # Create UI elements
+        combo1 = make_dynamic_combobox(["text_text", "text1", "text2"])
         add_row("tab_open_style:", combo1)
 
-        # 2–4. Int input fields (max 3 digits)
-        input1 = QLineEdit(); input1.setMaxLength(3); input1.setFixedWidth(50)
+        input1 = make_resizable_lineedit()
         add_row("limit_count:", input1)
 
-        input2 = QLineEdit(); input2.setMaxLength(3); input2.setFixedWidth(50)
+        input2 = make_resizable_lineedit()
         add_row("min_page_rating:", input2)
 
-        input3 = QLineEdit(); input3.setMaxLength(3); input3.setFixedWidth(50)
+        input3 = make_resizable_lineedit()
         add_row("max_page_rating:", input3)
 
-        # 5. Checkbox
         checkbox1 = QCheckBox()
         add_row("clear_input_after_search:", checkbox1)
 
-        # 6. Another dropdown
-        combo2 = QComboBox(); combo2.addItems(["1", "2", "3"])
+        combo2 = make_dynamic_combobox(["text", "text1", "text2"])
         add_row("language_preference:", combo2)
 
-        # 7. Another checkbox
         checkbox2 = QCheckBox()
         add_row("program_opinion:", checkbox2)
 
         self.setLayout(layout)
 
+    # Adjust QLineEdit width dynamically
+    def adjust_width_lineedit(self, widget, text):
+        metrics = widget.fontMetrics()
+        width = metrics.horizontalAdvance(text) + 30  # padding / запас
+        min_width = 60
+        max_width = 150
+        widget.setFixedWidth(max(min_width, min(width, max_width)))
+
+    # Adjust QComboBox width dynamically
+    def adjust_width_combobox(self, combo):
+        metrics = combo.fontMetrics()
+        width = metrics.horizontalAdvance(combo.currentText()) + 30
+        min_width = 30
+        max_width = 250
+        combo.setFixedWidth(max(min_width, min(width, max_width)))

@@ -1,1 +1,69 @@
 /* qt5ui/style/settingswindow.css */
+
+/* QLineEdit - flat white field */
+QLineEdit {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    min-width: 50px;  /* minimum width */
+}
+
+QLineEdit:focus {
+    border: 1px solid #0078d7;  /* blue highlight */
+    background-color: rgb(255, 255, 255);
+}
+
+/* QComboBox - flat white, centered text */
+QComboBox {
+    text-align: center; 
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: black;
+}
+
+QComboBox:focus {
+    border: 1px solid #0078d7;
+}
+
+/* remove default dropdown arrow */
+QComboBox::drop-down {
+    width: 0px;
+    border: none;
+}
+
+/* dropdown items */
+QComboBox::item { 
+    text-align: center; 
+}
+
+/* flat square */
+QCheckBox {
+    spacing: 5px;
+    font-size: 16px;
+    color: black;
+}
+
+QCheckBox::indicator {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 2px; 
+    background: white;
+}
+
+QCheckBox::indicator:checked {
+    background-color: #0078d7;
+    border: 1px solid #0078d7;
+}
+
+/* QLabel - labels */
+QLabel {
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+}
