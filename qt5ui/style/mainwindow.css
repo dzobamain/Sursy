@@ -26,6 +26,7 @@ QTextEdit#search_input:focus {
     background-color: #1e1e1e;
 }
 
+
 /* Search button */
 QPushButton#search_button {
     background-color: #0078d7;
@@ -42,6 +43,7 @@ QPushButton#search_button:pressed {
     background-color: #006cc2;
 }
 
+
 /* Settings button */
 QPushButton#settings_button {
     background-color: white;
@@ -55,4 +57,58 @@ QPushButton#settings_button:hover {
 }
 QPushButton#settings_button:pressed {
     background-color: #e0e0e0;
+}
+
+
+/* List of sites */
+QListWidget#site_list {
+    /*border: 1px solid #ccc;*/
+    border-radius: 10px;
+    /*padding: 5px;*/
+    background-color: #1e1e1e;
+    color: white;
+    font-size: 16px;
+}
+
+/* Items in list */
+QListWidget#site_list::item {
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+QListWidget#site_list::item:hover {
+    background-color: #2b2b2b;
+}
+
+QListWidget#site_list::item:selected {
+    background-color: #0078d7;
+    color: white;
+}
+
+/* Customize vertical scrollbar for QListWidget */
+QListWidget#site_list QScrollBar:vertical {
+    border: none; 
+    background: #1e1e1e;
+    width: 12px;  
+    margin: 0px 0px 0px 0px; 
+    border-radius: 6px;
+}
+
+/* Scrollbar handle (the movable slider) */
+QListWidget#site_list QScrollBar::handle:vertical {
+    background-color: #e0e0e0;
+    min-height: 20px;
+    border-radius: 6px;
+}
+
+/* Remove the default up/down buttons */
+QListWidget#site_list QScrollBar::add-line:vertical,
+QListWidget#site_list QScrollBar::sub-line:vertical {
+    height: 0px;                    /* hide buttons */
+}
+
+/* Background of the page area (track not covered by handle) */
+QListWidget#site_list QScrollBar::add-page:vertical,
+QListWidget#site_list QScrollBar::sub-page:vertical {
+    background: transparent;        /* make page area transparent */
 }

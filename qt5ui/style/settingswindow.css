@@ -16,6 +16,7 @@ QLineEdit:focus {
     background-color: rgb(255, 255, 255);
 }
 
+
 /* QComboBox - flat white, centered text */
 QComboBox {
     text-align: center; 
@@ -42,6 +43,7 @@ QComboBox::item {
     text-align: center; 
 }
 
+
 /* flat square */
 QCheckBox {
     spacing: 5px;
@@ -62,7 +64,8 @@ QCheckBox::indicator:checked {
     border: 1px solid #0078d7;
 }
 
-/* QLabel - labels */
+
+/* labels */
 QLabel {
     font-size: 16px;
     color: rgb(255, 255, 255);

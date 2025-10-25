@@ -1,47 +1,53 @@
 # qt5ui/mainwindow.py
 
+from typing import Optional
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
-    QTextEdit, QPushButton, QLabel, QDesktopWidget
+    QTextEdit, QPushButton, QListWidget, QAbstractItemView
 )
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QCloseEvent, QFont
 
 from util.log import logger
-from qt5ui.common import load_stylesheet
+from qt5ui.common import load_stylesheet, center_window
 from qt5ui.uiconfig import UiConfig
-from qt5ui.common import center_window
 from qt5ui.settingswindow import SettingsWindow
 from config import Config
 
 class MainWindow(QWidget):
     # Window
-    WIN_HEIGHT = 800
-    WIN_WIDTH = 600
+    WIN_HEIGHT: int = 800
+    WIN_WIDTH: int = 600
     
-    STYLE_PATH = UiConfig.MAINWINDOW_STYLE
+    STYLE_PATH: str = UiConfig.MAINWINDOW_STYLE
     
     # ObjectNames
-    SEAR_INPUT = "search_input"
-    SEARCH_BUTTON = "search_button"
-    SETTINGS_BUTTON = "settings_button"
+    SEAR_INPUT: str = "search_input"
+    SEARCH_BUTTON: str = "search_button"
+    SETTINGS_BUTTON: str = "settings_button"
+    SITE_LIST: str = "site_list"
     
-    def __init__(self):
+    def __init__(self) -> None:
         logger.info("Enter")
         super().__init__()
+        
+        # Setting window
+        self.settings_window: Optional[SettingsWindow] = None
 
         self.setStyleSheet(load_stylesheet(self.STYLE_PATH))
         self.init_ui()
-        
-    def closeEvent(self, event):
+    
+    
+    def closeEvent(self, event: QCloseEvent) -> None:
         # Triggered when the window is closed
         logger.info("Main window closed")
-        # Closed SettingsWindow
+        # Close SettingsWindow if open
         if self.settings_window is not None:
             self.settings_window.close()
         event.accept()
 
-    def init_ui(self):
+
+    def init_ui(self) -> None:
         logger.info("Enter")
 
         self.setWindowTitle(Config.PROGRAM_NAME)
@@ -49,15 +55,15 @@ class MainWindow(QWidget):
         center_window(self)  # Center the window on screen
 
         # Main vertical layout
-        main_layout = QVBoxLayout()
+        main_layout: QVBoxLayout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
 
         # Horizontal row for input and buttons
-        row_layout = QHBoxLayout()
+        row_layout: QHBoxLayout = QHBoxLayout()
         row_layout.setSpacing(10)
 
-        self.text_box = QTextEdit()
-        self.text_box.setObjectName(self.SEAR_INPUT) # For QSS selector
+        self.text_box: QTextEdit = QTextEdit()
+        self.text_box.setObjectName(self.SEAR_INPUT)  # For QSS selector
         self.text_box.setPlaceholderText("Enter your text here...")
 
         # Make it visually like QLineEdit
@@ -67,18 +73,18 @@ class MainWindow(QWidget):
         self.text_box.setWordWrapMode(True)
 
         # Adjust font size like QLineEdit
-        font = self.text_box.font()
+        font: QFont = self.text_box.font()
         font.setPointSize(16)
         self.text_box.setFont(font)
 
         # Search button
-        self.search_button = QPushButton("Search")
-        self.search_button.setObjectName(self.SEARCH_BUTTON) # For QSS selector
+        self.search_button: QPushButton = QPushButton("Search")
+        self.search_button.setObjectName(self.SEARCH_BUTTON)  # For QSS selector
         self.search_button.setMinimumHeight(40)
         self.search_button.clicked.connect(self.on_search_button_click)
 
         # Settings button
-        self.settings_button = QPushButton()
+        self.settings_button: QPushButton = QPushButton()
         self.settings_button.setObjectName(self.SETTINGS_BUTTON)  # For QSS selector
         self.settings_button.setIcon(QIcon(SettingsWindow.SETTINGS_BUTTON_ICON))
         self.settings_button.setFixedSize(40, 40)
@@ -88,36 +94,35 @@ class MainWindow(QWidget):
         row_layout.addWidget(self.search_button)
         row_layout.addWidget(self.settings_button)
 
-        # Label for displaying search results
-        self.label = QLabel()
-        self.label.setAlignment(Qt.AlignCenter)
-        self.label.setStyleSheet("font-size: 18px; margin-top: 20px;")
+        # Results list (site/s)
+        self.list_widget: QListWidget = QListWidget()
+        self.list_widget.setObjectName(self.SITE_LIST)  # For QSS selector
+        self.list_widget.setSelectionMode(QAbstractItemView.SingleSelection)
 
+        # Test items
+        self.list_widget.addItems([
+            f"Site{i}: test" for i in range(21)
+        ])
+
+        # Add all widgets to the layout
         main_layout.addLayout(row_layout)
-        main_layout.addWidget(self.label)
+        main_layout.addWidget(self.list_widget, stretch=5)
 
         # Set the final layout
         self.setLayout(main_layout)
+
     
-    def on_search_button_click(self):
+    def on_search_button_click(self) -> None:
         logger.info("Enter")
         
-        text = self.text_box.toPlainText()
+        text: str = self.text_box.toPlainText()
         self.text_box.clear()
         print(f"Your query: {text}")
     
-
-    def on_settings_button_click(self):
+    
+    def on_settings_button_click(self) -> None:
         logger.info("Enter")
 
         self.settings_window = SettingsWindow()
         self.settings_window.show()
 
-
-    def center(self):
-        logger.info("Enter")
-        
-        qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
