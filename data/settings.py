@@ -23,18 +23,17 @@ class Settings:
     clear_input_after_search: bool
 
     # Language preference for search
-    #     Examples:
-    #       "auto" — use the language the user types in
-    #       "en"   — search in English
-    #       "es"   — search in Russian, etc.
-    #       ...
+    # Examples:
+    # "auto" — use the language the user types in
+    # "en"   — search in English
+    # "es"   — search in Russian, etc.
     language_preference: str
 
     # Show the program’s “opinion” about each site (True/False)
     program_opinion: bool
     
     
-    def __init__(self):
+    def __init__(self) -> None:
         logger.info("Enter")
 
         '''
@@ -50,7 +49,7 @@ class Settings:
             self.by_default()
 
 
-    def by_default(self):
+    def by_default(self) -> None:
         logger.info("Enter")
         # Set default values for all settings.
         self.tab_open_style = "new_window"
@@ -123,3 +122,4 @@ class Settings:
             logger.info("program_opinion must be True/False")
             return False
         return True
+

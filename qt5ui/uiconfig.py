@@ -1,8 +1,8 @@
 # uiconfig.py
 
 class UiConfig:
-    STYLE_FILES = "qt5ui/style"
+    STYLE_FILES: str = "qt5ui/style"
     
     # Path to stylesheet for each window
-    MAINWINDOW_STYLE = f"{STYLE_FILES}/mainwindow.css"
-    SETTINGSWINDOW_STYLE = f"{STYLE_FILES}/settingswindow.css"
+    MAINWINDOW_STYLE: str = f"{STYLE_FILES}/mainwindow.css"
+    SETTINGSWINDOW_STYLE: str = f"{STYLE_FILES}/settingswindow.css"

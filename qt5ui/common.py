@@ -13,7 +13,7 @@ def load_stylesheet(path) -> str:
         logger.error(f"Failed to load stylesheet: {e}")
         return ""
 
-def center_window(window):
+def center_window(window) -> None:
     """
     Centers any window on the screen.
     :param window: QWidget or any of its subclasses

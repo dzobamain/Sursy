@@ -2,13 +2,13 @@
 
 class Config:
     # Basic program info
-    PROGRAM_NAME = "Sursy"
-    VERSION = "0.0.0"
-    AUTHOR = "Volodymyr Dzoba"
-    LICENSE = "MIT"
+    PROGRAM_NAME: str = "Sursy"
+    VERSION: str = "0.0.0"
+    AUTHOR: str = "Volodymyr Dzoba"
+    LICENSE: str = "MIT"
 
     # Repository
-    REPOSITORY_URL = "https://github.com/dzobamain/sursy"
+    REPOSITORY_URL: str = "https://github.com/dzobamain/sursy"
     
     # Program
-    SETTINGS_PATH = "data/settings.json"
+    SETTINGS_PATH: str = "data/settings.json"
