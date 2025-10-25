@@ -3,13 +3,28 @@
 from util.log import logger
 from data.json_io import load_from_json
 from config import Config
+from typing import ClassVar, List
 
 class Settings:
+    # Available options for tab open style
+    TAB_OPEN_STYLE_OPTIONS: ClassVar[List[str]] = ["new_window", "single_row", "links_only"]
+    LANGUAGE_PREFERENCE_OPTIONS: ClassVar[List[str]] = ["auto", "en", "ru"]
+
     # How browser tabs should open
     # options: "new_window" — each tab in a new window
     #          "single_row" — all tabs in one window/row
     #          "links_only" — show only links
     tab_open_style: str
+
+    # Language preference for search
+    # Examples:
+    # "auto" — use the language the user types in
+    # "en"   — search in English
+    # "ru"   — search in Russian, etc.
+    language_preference: str
+
+    # Current selected tab open style
+    tab_open_style_value: str
 
     # The maximum number of pages to search for
     limit_count: int
@@ -22,47 +37,39 @@ class Settings:
     # Clear the input field after a search (True/False)
     clear_input_after_search: bool
 
-    # Language preference for search
-    # Examples:
-    # "auto" — use the language the user types in
-    # "en"   — search in English
-    # "es"   — search in Russian, etc.
-    language_preference: str
+    # Current selected language
+    language_preference_value: str
 
     # Show the program’s “opinion” about each site (True/False)
     program_opinion: bool
-    
-    
+
     def __init__(self) -> None:
         logger.info("Enter")
 
-        '''
-        To load data from a file, you first need to create an instance of the class
-        and call by_default(). This initializes the fields so they can be modified.
-        '''
+        # Initialize default values
         self.by_default()
 
+        # Load saved settings from file
         load_from_json(self, Config.SETTINGS_PATH)
 
+        # Validate loaded settings
         if not self.check_parameters():
             logger.warning("Invalid parameters detected. Using defaults.")
             self.by_default()
 
-
     def by_default(self) -> None:
         logger.info("Enter")
-        # Set default values for all settings.
-        self.tab_open_style = "new_window"
+        # Set default values for all settings
+        self.tab_open_style = self.TAB_OPEN_STYLE_OPTIONS[0]  # "new_window"
         self.limit_count = 10
         self.min_page_rating = 0
         self.max_page_rating = 100
         self.clear_input_after_search = True
-        self.language_preference = "auto"
+        self.language_preference = self.LANGUAGE_PREFERENCE_OPTIONS[0]  # "auto"
         self.program_opinion = False
-    
+
     def check_parameters(self) -> bool:
         logger.info("Enter check_parameters")
-        # Call all individual checks
         return (
             self.check_tab_open_style() and
             self.check_limit_count() and
@@ -76,7 +83,7 @@ class Settings:
     # Individual checks
     def check_tab_open_style(self) -> bool:
         logger.info("Enter check_tab_open_style")
-        if self.tab_open_style not in ["new_window", "single_row", "links_only"]:
+        if self.tab_open_style not in self.TAB_OPEN_STYLE_OPTIONS:
             logger.info("Invalid tab_open_style!")
             return False
         return True
@@ -111,7 +118,7 @@ class Settings:
 
     def check_language_preference(self) -> bool:
         logger.info("Enter check_language_preference")
-        if self.language_preference not in ["auto", "en", "es", "ru", "fr", "de", "zh"]:
+        if self.language_preference not in self.LANGUAGE_PREFERENCE_OPTIONS:
             logger.info("Invalid language_preference!")
             return False
         return True
