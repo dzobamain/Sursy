@@ -2,34 +2,31 @@
 
 /* QLineEdit - flat white field */
 QLineEdit {
-    background-color: white;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 10px;
     padding: 5px 10px;
     font-size: 16px;
-    color: rgb(0, 0, 0);
+    color: white;
     min-width: 50px;  /* minimum width */
 }
 
 QLineEdit:focus {
-    border: 1px solid #0078d7;  /* blue highlight */
-    background-color: rgb(255, 255, 255);
+    border: 2px solid #0078d7;  /* blue highlight */
 }
 
 
 /* QComboBox - flat white, centered text */
 QComboBox {
     text-align: center; 
-    background-color: white;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 10px;
     padding: 5px 10px;
     font-size: 16px;
-    color: black;
+    color: white;
 }
 
 QComboBox:focus {
-    border: 1px solid #0078d7;
+    border: 2px solid #0078d7;
 }
 
 /* remove default dropdown arrow */
@@ -48,20 +45,18 @@ QComboBox::item {
 QCheckBox {
     spacing: 5px;
     font-size: 16px;
-    color: black;
 }
 
 QCheckBox::indicator {
     width: 20px;
     height: 20px;
-    border: 1px solid #ccc;
-    border-radius: 2px; 
-    background: white;
+    border: 2px solid #ccc;
+    border-radius: 10px; 
+    background-color: #1E1E1E
 }
 
 QCheckBox::indicator:checked {
     background-color: #0078d7;
-    border: 1px solid #0078d7;
 }
 
 

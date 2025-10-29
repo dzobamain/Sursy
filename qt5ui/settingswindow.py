@@ -10,6 +10,7 @@ from PyQt5.QtGui import QCloseEvent
 from util.log import logger
 from qt5ui.common import load_stylesheet, center_window
 from qt5ui.uiconfig import UiConfig
+from data.settings import Settings
 
 class SettingsWindow(QWidget):
     STYLE_PATH: str = UiConfig.SETTINGSWINDOW_STYLE
@@ -89,27 +90,29 @@ class SettingsWindow(QWidget):
 
             return combo
 
+        set = Settings()
+        
         # Create UI elements
-        combo1: QComboBox = make_dynamic_combobox(["text_text", "text1", "text2"])
-        add_row("tab_open_style:", combo1)
+        combobox_open_style: QComboBox = make_dynamic_combobox(set.TAB_OPEN_STYLE_OPTIONS)
+        add_row("Information display mode", combobox_open_style)
 
-        input1: QLineEdit = make_resizable_lineedit()
-        add_row("limit_count:", input1)
+        line_limit_count: QLineEdit = make_resizable_lineedit()
+        add_row("Number of sources", line_limit_count)
 
-        input2: QLineEdit = make_resizable_lineedit()
-        add_row("min_page_rating:", input2)
+        line_min_page_rating: QLineEdit = make_resizable_lineedit()
+        add_row("Minimum source rating", line_min_page_rating)
 
-        input3: QLineEdit = make_resizable_lineedit()
-        add_row("max_page_rating:", input3)
+        line_max_page_rating: QLineEdit = make_resizable_lineedit()
+        add_row("Maximum source rating", line_max_page_rating)
 
-        checkbox1: QCheckBox = QCheckBox()
-        add_row("clear_input_after_search:", checkbox1)
+        checkbox_clear_input: QCheckBox = QCheckBox()
+        add_row("Clear input after search", checkbox_clear_input)
 
-        combo2: QComboBox = make_dynamic_combobox(["text", "text1", "text2"])
-        add_row("language_preference:", combo2)
+        combobox_language: QComboBox = make_dynamic_combobox(set.LANGUAGE_PREFERENCE_OPTIONS)
+        add_row("Search language", combobox_language)
 
-        checkbox2: QCheckBox = QCheckBox()
-        add_row("program_opinion:", checkbox2)
+        checkbox_program_opinion: QCheckBox = QCheckBox()
+        add_row("Program opinion", checkbox_program_opinion)
 
         self.setLayout(layout)
 

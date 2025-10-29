@@ -37,10 +37,10 @@ QPushButton#search_button {
     padding: 5px 15px;
 }
 QPushButton#search_button:hover {
-    background-color: #1a86dd;
+    background-color: #0078d7;
 }
 QPushButton#search_button:pressed {
-    background-color: #006cc2;
+    background-color: #0078d7;
 }
 
 
