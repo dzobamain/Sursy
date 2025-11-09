@@ -17,7 +17,6 @@ QLineEdit:focus {
 
 /* QComboBox - flat white, centered text */
 QComboBox {
-    text-align: center; 
     border: 2px solid #ccc;
     border-radius: 10px;
     padding: 5px 10px;
@@ -36,12 +35,12 @@ QComboBox::drop-down {
 }
 
 /* dropdown items */
-QComboBox::item { 
+QComboBox QListView::item { 
     text-align: center; 
 }
 
 
-/* flat square */
+/* flat square checkbox */
 QCheckBox {
     spacing: 5px;
     font-size: 16px;
@@ -52,7 +51,7 @@ QCheckBox::indicator {
     height: 20px;
     border: 2px solid #ccc;
     border-radius: 10px; 
-    background-color: #1E1E1E
+    background-color: #1E1E1E;
 }
 
 QCheckBox::indicator:checked {

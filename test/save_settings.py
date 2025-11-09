@@ -9,10 +9,10 @@ def start_test():
     
     '''
     settings.by_default()
-    
-    save_to_json(settings, Config.SETTINGS_PATH)
     load_from_json(settings, Config.SETTINGS_PATH)
     '''
+    settings.by_default()
+    save_to_json(settings, Config.SETTINGS_PATH)
     
     print(settings.__dict__)
 
