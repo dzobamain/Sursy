@@ -110,5 +110,5 @@ QListWidget#site_list QScrollBar::sub-line:vertical {
 /* Background of the page area (track not covered by handle) */
 QListWidget#site_list QScrollBar::add-page:vertical,
 QListWidget#site_list QScrollBar::sub-page:vertical {
-    background: transparent;        /* make page area transparent */
+    background: transparent; /* make page area transparent */
 }

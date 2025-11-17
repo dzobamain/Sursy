@@ -32,7 +32,7 @@ class MainWindow(QWidget):
         super().__init__()
         
         # Setting window
-        self.settings_window: Optional[SettingsWindow] = None
+        self.settings_window = SettingsWindow()
 
         self.setStyleSheet(load_stylesheet(self.STYLE_PATH))
         self.init_ui()
@@ -120,9 +120,14 @@ class MainWindow(QWidget):
         print(f"Your query: {text}")
     
     
-    def on_settings_button_click(self) -> None:
-        logger.info("Enter")
+    def on_settings_button_click(self):
+        if self.settings_window is None:
+            self.settings_window = SettingsWindow()
 
-        self.settings_window = SettingsWindow()
+        # Show the window if it was hidden
         self.settings_window.show()
+
+        # Bring the window to the front and focus it
+        self.settings_window.raise_() # brings the window to the front
+        self.settings_window.activateWindow()  # makes the window active/focused
 

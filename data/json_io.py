@@ -12,8 +12,6 @@ def save_to_json(obj: Any, path: str) -> None:
     :param obj: Object to save. If it's a class instance, its __dict__ will be used.
     :param path: Path to the JSON file.
     """
-    logger.info("Enter")
-
     try:
         # Ensure the directory exists before saving
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -38,8 +36,6 @@ def load_from_json(obj: Any, path: str) -> None:
     :param obj: The object whose attributes will be updated.
     :param path: Path to the JSON file.
     """
-    logger.info("Enter")
-
     try:
         # Check if the file exists
         if not os.path.exists(path):
