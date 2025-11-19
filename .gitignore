@@ -21,4 +21,7 @@ Thumbs.db
 var/*
 
 # settings
-/data/settings.json
+data/settings.json
+
+# tests output
+test

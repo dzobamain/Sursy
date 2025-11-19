@@ -41,19 +41,17 @@ class Settings:
     def __init__(self) -> None:
         logger.info("Enter")
 
-        # Initialize default values
+        # Set default values first
         self.by_default()
 
-        # Load saved settings from file
-        load_from_json(self, Config.SETTINGS_PATH)
+        # Try to load saved settings
+        loaded = load_from_json(self, Config.SETTINGS_PATH)
 
-        # Validate loaded settings
-        if self.check_parameters():
-            return
-        
-        logger.warning("Invalid parameters detected. Using defaults.")
-        self.by_default()
-        save_to_json(self, Config.SETTINGS_PATH)
+        # If loading failed or data is invalid, reset to defaults and save
+        if not loaded or not self.check_parameters():
+            logger.warning("Settings missing or invalid. Using defaults.")
+            self.by_default()
+            save_to_json(self, Config.SETTINGS_PATH)
 
     def by_default(self) -> None:
         logger.info("Enter")

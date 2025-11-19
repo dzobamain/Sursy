@@ -6,6 +6,7 @@ from typing import Any
 from util.log import logger
 
 def save_to_json(obj: Any, path: str) -> None:
+    logger.debug("Enter")
     """
     Save any Python object (class instance or dict) to a JSON file.
 
@@ -39,7 +40,7 @@ def load_from_json(obj: Any, path: str) -> None:
     try:
         # Check if the file exists
         if not os.path.exists(path):
-            logger.warning(f"Settings file not found: {path}. Using defaults.")
+            logger.warning(f"Settings file not found: {path}.")
             return
 
         # Read and parse JSON data

@@ -1,0 +1,15 @@
+{
+    "window": {
+        "size": {
+            "width": 1024,
+            "height": 768
+        },
+        "position": {
+            "x": 100,
+            "y": 100
+        }
+    },
+    "browser": {
+        "path": "path"
+    }
+}

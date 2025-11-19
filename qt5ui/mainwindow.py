@@ -1,6 +1,5 @@
 # qt5ui/mainwindow.py
 
-from typing import Optional
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
     QTextEdit, QPushButton, QListWidget, QAbstractItemView
@@ -50,7 +49,9 @@ class MainWindow(QWidget):
     def init_ui(self) -> None:
         logger.info("Enter")
 
-        self.setWindowTitle(Config.PROGRAM_NAME)
+        program_config = Config.load_json(Config.PROGRAM_CONFIG)
+        if program_config:
+            self.setWindowTitle(program_config.get("program", {}).get("name", "Unknown"))
         self.resize(self.WIN_HEIGHT, self.WIN_WIDTH)
         center_window(self)  # Center the window on screen
 

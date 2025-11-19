@@ -92,8 +92,9 @@ class SettingsWindow(QWidget):
         self.add_row("Clear input after search", self.checkbox_clear_input, layout)
         self.checkbox_clear_input.setChecked(self.settings.clear_input_after_search)
 
+        # ⚡ Connect using Qt.Checked comparison
         self.checkbox_clear_input.stateChanged.connect(
-            lambda v: self.on_user_change("clear_input_after_search", bool(v))
+            lambda state: self.on_user_change("clear_input_after_search", state == Qt.Checked)
         )
 
         # --- combobox_language ---
@@ -110,8 +111,9 @@ class SettingsWindow(QWidget):
         self.add_row("Program opinion", self.checkbox_program_opinion, layout)
         self.checkbox_program_opinion.setChecked(self.settings.program_opinion)
 
+        # ⚡ Connect using Qt.Checked comparison
         self.checkbox_program_opinion.stateChanged.connect(
-            lambda v: self.on_user_change("program_opinion", bool(v))
+            lambda state: self.on_user_change("program_opinion", state == Qt.Checked)
         )
 
         self.setLayout(layout)
@@ -179,14 +181,12 @@ class SettingsWindow(QWidget):
     def on_user_change(self, key: str, new_value):
         old_value = getattr(self.settings, key)
 
-        # Type conversion
+        # Type conversion for int/float only, bool уже булеве
         try:
             if isinstance(old_value, int):
                 new_value = int(new_value)
             elif isinstance(old_value, float):
                 new_value = float(new_value)
-            elif isinstance(old_value, bool):
-                new_value = bool(new_value)
         except ValueError:
             logger.info(f"Invalid type for {key}, revert")
             self.restore_old_value(key, old_value)

@@ -1,0 +1,14 @@
+{
+    "program": {
+        "name": "Sursy",
+        "version": "0.0.0",
+        "author": "Volodymyr Dzoba",
+        "license": "MIT"
+    },
+    "repository": {
+        "url": "https://github.com/dzobamain/sursy"
+    },
+    "paths": {
+        "settings": "data/settings.json"
+    }
+}
