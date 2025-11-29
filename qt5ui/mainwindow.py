@@ -12,6 +12,8 @@ from qt5ui.common import load_stylesheet, center_window
 from qt5ui.uiconfig import UiConfig
 from qt5ui.settingswindow import SettingsWindow
 from config import Config
+from data.settings import Settings
+from data.json_io import load_from_json
 
 class MainWindow(QWidget):
     # Window
@@ -32,6 +34,7 @@ class MainWindow(QWidget):
         
         # Setting window
         self.settings_window = SettingsWindow()
+        self.settings = Settings()
 
         self.setStyleSheet(load_stylesheet(self.STYLE_PATH))
         self.init_ui()
@@ -117,7 +120,10 @@ class MainWindow(QWidget):
         logger.info("Enter")
         
         text: str = self.text_box.toPlainText()
-        self.text_box.clear()
+        
+        if self.settings.clear_input_after_search:
+            self.text_box.clear()
+        
         print(f"Your query: {text}")
     
     

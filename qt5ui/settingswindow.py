@@ -11,7 +11,7 @@ from util.log import logger
 from qt5ui.common import load_stylesheet, center_window
 from qt5ui.uiconfig import UiConfig
 from data.settings import Settings
-from data.json_io import save_to_json
+from data.json_io import save_to_json, load_from_json
 from config import Config
 
 class SettingsWindow(QWidget):
@@ -94,7 +94,7 @@ class SettingsWindow(QWidget):
 
         # ⚡ Connect using Qt.Checked comparison
         self.checkbox_clear_input.stateChanged.connect(
-            lambda state: self.on_user_change("clear_input_after_search", state == Qt.Checked)
+            lambda v: self.on_user_change("clear_input_after_search", bool(v))
         )
 
         # --- combobox_language ---
@@ -113,7 +113,7 @@ class SettingsWindow(QWidget):
 
         # ⚡ Connect using Qt.Checked comparison
         self.checkbox_program_opinion.stateChanged.connect(
-            lambda state: self.on_user_change("program_opinion", state == Qt.Checked)
+            lambda v: self.on_user_change("program_opinion", bool(v))
         )
 
         self.setLayout(layout)
@@ -187,6 +187,8 @@ class SettingsWindow(QWidget):
                 new_value = int(new_value)
             elif isinstance(old_value, float):
                 new_value = float(new_value)
+            elif isinstance(old_value, bool):
+                new_value = bool(new_value)
         except ValueError:
             logger.info(f"Invalid type for {key}, revert")
             self.restore_old_value(key, old_value)
