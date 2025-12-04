@@ -1,5 +1,4 @@
 # qt5ui/settingswindow.py
-
 from typing import List
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QComboBox, QLineEdit, QCheckBox, QFormLayout, QHBoxLayout, QSpacerItem, QSizePolicy
@@ -9,21 +8,15 @@ from PyQt5.QtGui import QCloseEvent, QIntValidator
 
 from util.log import logger
 from qt5ui.common import load_stylesheet, center_window
-from qt5ui.uiconfig import UiConfig
 from data.settings import Settings
-from data.json_io import save_to_json, load_from_json
+from data.json_io import save_to_json
 from config import Config
 
 class SettingsWindow(QWidget):
-    STYLE_PATH: str = UiConfig.SETTINGSWINDOW_STYLE
-    
     # Window
     WIN_WIDTH: int = 600
     WIN_HEIGHT: int = 400
     WINDOW_NAME: str = "Settings"
-    
-    # Icons
-    SETTINGS_BUTTON_ICON: str = "image/icon/settings.png"
     
     # data
     settings = Settings()
@@ -31,8 +24,11 @@ class SettingsWindow(QWidget):
     def __init__(self) -> None:
         logger.info("Enter")
         super().__init__()
+        
+        # Style
+        STYLE_PATH: str = Config.load_json(Config.PROGRAM_CONFIG)["gui"]["style"]["settingswindow"]
 
-        self.setStyleSheet(load_stylesheet(self.STYLE_PATH))
+        self.setStyleSheet(load_stylesheet(STYLE_PATH))
         self.init_ui()
 
     def closeEvent(self, event: QCloseEvent) -> None:
@@ -41,7 +37,6 @@ class SettingsWindow(QWidget):
         event.accept()
 
     def init_ui(self) -> None:
-        logger.info("Enter")
         self.setWindowTitle(self.WINDOW_NAME)
         self.resize(self.WIN_WIDTH, self.WIN_HEIGHT)
         center_window(self)
@@ -121,7 +116,6 @@ class SettingsWindow(QWidget):
 
     # Add row with label and widget
     def add_row(self, label_text: str, widget: QWidget, layout: QFormLayout) -> None:
-        logger.info(f"Enter {widget}")
         row: QHBoxLayout = QHBoxLayout()
         label: QLabel = QLabel(label_text)
         row.addWidget(label)
@@ -131,7 +125,6 @@ class SettingsWindow(QWidget):
         
     # Create resizable QLineEdit
     def make_resizable_lineedit(self) -> QLineEdit:
-        logger.info("Enter")
         line_edit: QLineEdit = QLineEdit()
         line_edit.setMaxLength(3)  # max 3 digits 
         line_edit.setValidator(QIntValidator()) # Only int input
@@ -139,11 +132,11 @@ class SettingsWindow(QWidget):
         line_edit.setAlignment(Qt.AlignCenter)  # center text
         line_edit.textChanged.connect(lambda text, le=line_edit: self.adjust_width_lineedit(le, text))
         self.adjust_width_lineedit(line_edit, "")
+        
         return line_edit
 
     # Create dynamic QComboBox
     def make_dynamic_combobox(self, items: List[str]) -> QComboBox:
-        logger.info("Enter")
         combo: QComboBox = QComboBox()
         combo.addItems(items)
         combo.setEditable(False)  # user can only select
@@ -204,7 +197,7 @@ class SettingsWindow(QWidget):
             return
 
         # Save settings
-        save_to_json(self.settings, Config.SETTINGS_PATH)
+        save_to_json(self.settings, Config.load_json(Config.PROGRAM_CONFIG)["paths"]["settings"])
         logger.info(f"Saved {key} = {new_value}")
 
     def restore_old_value(self, key: str, value):
@@ -237,3 +230,4 @@ class SettingsWindow(QWidget):
             self.checkbox_program_opinion.blockSignals(True)
             self.checkbox_program_opinion.setChecked(value)
             self.checkbox_program_opinion.blockSignals(False)
+

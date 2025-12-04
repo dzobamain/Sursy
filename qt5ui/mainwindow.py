@@ -1,32 +1,32 @@
 # qt5ui/mainwindow.py
-
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
     QTextEdit, QPushButton, QListWidget, QAbstractItemView
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtGui import QIcon, QCloseEvent, QFont
 
 from util.log import logger
 from qt5ui.common import load_stylesheet, center_window
-from qt5ui.uiconfig import UiConfig
 from qt5ui.settingswindow import SettingsWindow
 from config import Config
 from data.settings import Settings
-from data.json_io import load_from_json
 
 class MainWindow(QWidget):
     # Window
     WIN_HEIGHT: int = 800
     WIN_WIDTH: int = 600
     
-    STYLE_PATH: str = UiConfig.MAINWINDOW_STYLE
-    
     # ObjectNames
     SEAR_INPUT: str = "search_input"
     SEARCH_BUTTON: str = "search_button"
     SETTINGS_BUTTON: str = "settings_button"
     SITE_LIST: str = "site_list"
+    
+    # Icons
+    SETTINGS_BUTTON_ICON: str = "image/icon/settings.png"
+    SEARCH_BUTTON_ICON: str = "image/icon/search.png"
     
     def __init__(self) -> None:
         logger.info("Enter")
@@ -35,8 +35,10 @@ class MainWindow(QWidget):
         # Setting window
         self.settings_window = SettingsWindow()
         self.settings = Settings()
+        # Style
+        STYLE_PATH: str = Config.load_json(Config.PROGRAM_CONFIG)["gui"]["style"]["mainwindow"]
 
-        self.setStyleSheet(load_stylesheet(self.STYLE_PATH))
+        self.setStyleSheet(load_stylesheet(STYLE_PATH))
         self.init_ui()
     
     
@@ -50,11 +52,9 @@ class MainWindow(QWidget):
 
 
     def init_ui(self) -> None:
-        logger.info("Enter")
-
         program_config = Config.load_json(Config.PROGRAM_CONFIG)
-        if program_config:
-            self.setWindowTitle(program_config.get("program", {}).get("name", "Unknown"))
+        if program_config is not None:
+            self.setWindowTitle(program_config["program"]["name"])
         self.resize(self.WIN_HEIGHT, self.WIN_WIDTH)
         center_window(self)  # Center the window on screen
 
@@ -90,7 +90,7 @@ class MainWindow(QWidget):
         # Settings button
         self.settings_button: QPushButton = QPushButton()
         self.settings_button.setObjectName(self.SETTINGS_BUTTON)  # For QSS selector
-        self.settings_button.setIcon(QIcon(SettingsWindow.SETTINGS_BUTTON_ICON))
+        self.settings_button.setIcon(QIcon(self.SETTINGS_BUTTON_ICON))
         self.settings_button.setFixedSize(40, 40)
         self.settings_button.clicked.connect(self.on_settings_button_click)
 
@@ -117,8 +117,6 @@ class MainWindow(QWidget):
 
     
     def on_search_button_click(self) -> None:
-        logger.info("Enter")
-        
         text: str = self.text_box.toPlainText()
         
         if self.settings.clear_input_after_search:

@@ -29,20 +29,19 @@ QTextEdit#search_input:focus {
 
 /* Search button */
 QPushButton#search_button {
-    background-color: #0078d7;
+    background-color: #0078d7;  
     color: white;
-    border-radius: 10px;
-    border: none;
+    border-radius: 10px;         
+    border: none;      
     font-size: 16px;
     padding: 5px 15px;
 }
 QPushButton#search_button:hover {
-    background-color: #0078d7;
+    background-color: #0074d2;  
 }
 QPushButton#search_button:pressed {
-    background-color: #0078d7;
+    background-color: #0078d7;  
 }
-
 
 /* Settings button */
 QPushButton#settings_button {

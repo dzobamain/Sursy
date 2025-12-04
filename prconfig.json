@@ -10,5 +10,20 @@
     },
     "paths": {
         "settings": "data/settings.json"
+    },
+    "gui": {
+        "style": {
+            "mainwindow": "qt5ui/style/mainwindow.css",
+            "settingswindow": "qt5ui/style/settingswindow.css"
+        }
+    },
+    "browser": {
+        "window": {
+            "width": 1024,
+            "height": 768,
+            "position_x": 100,
+            "position_y": 100
+        },
+        "path": "path"
     }
 }

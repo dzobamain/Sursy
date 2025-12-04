@@ -1,7 +1,5 @@
 # qt5ui/common.py
-
 from PyQt5.QtWidgets import QDesktopWidget
-
 from util.log import logger
 
 def load_stylesheet(path) -> str:

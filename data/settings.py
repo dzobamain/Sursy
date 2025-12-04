@@ -1,9 +1,7 @@
 # data/settings.py
-
 from util.log import logger
-from data.json_io import load_from_json, save_to_json
+from data.json_io import load_into_object, save_to_json
 from config import Config
-from typing import ClassVar, List
 
 class Settings:
     # How browser tabs should open
@@ -42,11 +40,16 @@ class Settings:
         logger.info("Enter")
 
         self.by_default()
-        load_from_json(self, Config.SETTINGS_PATH)
-        if not self.check_parameters():
-            logger.warning("Invalid or missing parameters in JSON, reverting to defaults")
-            self.by_default()
-            save_to_json(self, Config.SETTINGS_PATH)
+
+        loaded = Config.load_json(Config.PROGRAM_CONFIG)["paths"]["settings"]
+
+        if loaded and self.check_parameters():
+            return
+
+        logger.warning("Invalid or missing parameters in JSON, reverting to defaults")
+        self.by_default()
+        save_to_json(self, Config.PROGRAM_CONFIG)["paths"]["settings"]
+
 
     def by_default(self) -> None:
         logger.info("Enter")
@@ -80,14 +83,14 @@ class Settings:
 
 
     def check_limit_count(self) -> bool:
-        if not (1 <= self.limit_count <= 100):
+        if not 1 <= self.limit_count:
             logger.info("limit_count must be between 1 and 100")
             return False
         return True
 
 
     def check_min_page_rating(self) -> bool:
-        if self.min_page_rating < 0:
+        if self.min_page_rating < 0 or self.min_page_rating > self.max_page_rating:
             logger.info("min_page_rating must be >= 0")
             return False
         return True

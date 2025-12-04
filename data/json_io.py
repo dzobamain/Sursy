@@ -5,7 +5,7 @@ import os
 from typing import Any
 from util.log import logger
 
-def save_to_json(obj: Any, path: str) -> None:
+def save_to_json(obj: Any, path: str) -> bool:
     logger.debug("Enter")
     """
     Save any Python object (class instance or dict) to a JSON file.
@@ -29,31 +29,27 @@ def save_to_json(obj: Any, path: str) -> None:
     except Exception as e:
         logger.error(f"Failed to save JSON: {e}") 
 
-
-def load_from_json(obj: Any, path: str) -> None:
+    
+def load_into_object(obj: Any, path: str) -> bool:
     """
-    Load data from a JSON file into an existing object.
-
-    :param obj: The object whose attributes will be updated.
-    :param path: Path to the JSON file.
+    Load JSON into an existing object (`obj`) and return True if loaded.
     """
     try:
-        # Check if the file exists
         if not os.path.exists(path):
             logger.warning(f"Settings file not found: {path}.")
-            return
+            return False
 
-        # Read and parse JSON data
         with open(path, "r", encoding="utf-8") as f:
-            data: dict[str, Any] = json.load(f)
+            data = json.load(f)
 
-        # Update object attributes if they exist
         for key, value in data.items():
             if hasattr(obj, key):
                 setattr(obj, key, value)
 
         logger.info(f"Loaded JSON successfully from {path}")
+        return True
 
     except Exception as e:
         logger.error(f"Failed to load JSON: {e}")
+        return False
 
