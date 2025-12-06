@@ -12,6 +12,7 @@ from qt5ui.common import load_stylesheet, center_window
 from qt5ui.settingswindow import SettingsWindow
 from config import Config
 from data.settings import Settings
+from util.error import show_error
 
 class MainWindow(QWidget):
     # Window
@@ -32,29 +33,53 @@ class MainWindow(QWidget):
         logger.info("Enter")
         super().__init__()
         
-        # Setting window
-        self.settings_window = SettingsWindow()
+        self.settings_window = None
         self.settings = Settings()
+        self.config = Config()
+        
+        self.test = Config()
+        self.test.prconfig = {}
+        
         # Style
-        STYLE_PATH: str = Config.load_json(Config.PROGRAM_CONFIG)["gui"]["style"]["mainwindow"]
-
-        self.setStyleSheet(load_stylesheet(STYLE_PATH))
+        try:
+            self.setStyleSheet(load_stylesheet(self.test.prconfig["gui"]["style"]["mainwindow"]))
+        except Exception as e:
+            logger.error(f"Failed to load main window stylesheet: {e}")
+            show_error(
+                parent=self,
+                title="Style Load Error",
+                message="Could not load main window stylesheet.",
+                details=str(e),
+                close_parent=True
+            )
+            self.close()
+            return 
+        
         self.init_ui()
     
     
     def closeEvent(self, event: QCloseEvent) -> None:
         # Triggered when the window is closed
-        logger.info("Main window closed")
         # Close SettingsWindow if open
         if self.settings_window is not None:
             self.settings_window.close()
+            
+        logger.info("Main window closed")
         event.accept()
 
 
-    def init_ui(self) -> None:
-        program_config = Config.load_json(Config.PROGRAM_CONFIG)
-        if program_config is not None:
-            self.setWindowTitle(program_config["program"]["name"])
+    def init_ui(self) -> None: 
+        try:
+            self.setWindowTitle(self.config.prconfig["program"]["name"])
+        except Exception as e:
+            logger.error(f"Failed to load main window stylesheet: {e}")
+            show_error(
+                parent=self,
+                title="Warning",
+                message='Config has not ["program"]["name"].',
+                details=str(e),
+                close_parent=True
+            )
         self.resize(self.WIN_HEIGHT, self.WIN_WIDTH)
         center_window(self)  # Center the window on screen
 
@@ -114,6 +139,9 @@ class MainWindow(QWidget):
 
         # Set the final layout
         self.setLayout(main_layout)
+        
+        # Show the window
+        self.show()
 
     
     def on_search_button_click(self) -> None:

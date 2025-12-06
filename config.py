@@ -14,10 +14,10 @@ class Config:
     def __init__(self) -> None:
         logger.info("Enter")
         
-        self.program_config = self.load_json(self.PROGRAM_CONFIG)
-        if self.program_config is None:
+        self.prconfig = self.load_json(self.PROGRAM_CONFIG)
+        if self.prconfig is None:
             logger.error("Failed to load program configuration.")
-            self.program_config = {}
+            self.prconfig = {}
         
         
     @staticmethod

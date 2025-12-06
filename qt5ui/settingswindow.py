@@ -11,6 +11,7 @@ from qt5ui.common import load_stylesheet, center_window
 from data.settings import Settings
 from data.json_io import save_to_json
 from config import Config
+from util.error import show_error
 
 class SettingsWindow(QWidget):
     # Window
@@ -18,17 +19,26 @@ class SettingsWindow(QWidget):
     WIN_HEIGHT: int = 400
     WINDOW_NAME: str = "Settings"
     
-    # data
-    settings = Settings()
-    
     def __init__(self) -> None:
         logger.info("Enter")
         super().__init__()
         
-        # Style
-        STYLE_PATH: str = Config.load_json(Config.PROGRAM_CONFIG)["gui"]["style"]["settingswindow"]
-
-        self.setStyleSheet(load_stylesheet(STYLE_PATH))
+        self.settings = Settings()
+        self.config = Config()
+        
+        try:
+            self.setStyleSheet(load_stylesheet(self.test.prconfig["gui"]["style"]["mainwindow"]))
+        except Exception as e:
+            logger.error(f"Failed to load main window stylesheet: {e}")
+            show_error(
+                parent=self,
+                title="Style Load Error",
+                message="Could not load main window stylesheet.",
+                details=str(e),
+                close_parent=True
+            )
+            return 
+        
         self.init_ui()
 
     def closeEvent(self, event: QCloseEvent) -> None:
