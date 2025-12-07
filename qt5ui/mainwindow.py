@@ -12,7 +12,7 @@ from qt5ui.common import load_stylesheet, center_window
 from qt5ui.settingswindow import SettingsWindow
 from config import Config
 from data.settings import Settings
-from util.error import show_error
+from qt5ui.error import show_error
 
 class MainWindow(QWidget):
     # Window
@@ -33,29 +33,24 @@ class MainWindow(QWidget):
         logger.info("Enter")
         super().__init__()
         
+        self.init_success: bool = True
         self.settings_window = None
         self.settings = Settings()
         self.config = Config()
         
-        self.test = Config()
-        self.test.prconfig = {}
-        
         # Style
         try:
-            self.setStyleSheet(load_stylesheet(self.test.prconfig["gui"]["style"]["mainwindow"]))
+            self.setStyleSheet(load_stylesheet(self.config.prconfig["gui"]["style"]["mainwindow"]))
         except Exception as e:
             logger.error(f"Failed to load main window stylesheet: {e}")
             show_error(
                 parent=self,
                 title="Style Load Error",
                 message="Could not load main window stylesheet.",
-                details=str(e),
-                close_parent=True
+                details=str(e)
             )
-            self.close()
-            return 
-        
-        self.init_ui()
+            #self.init_success = False
+            return
     
     
     def closeEvent(self, event: QCloseEvent) -> None:
@@ -139,9 +134,6 @@ class MainWindow(QWidget):
 
         # Set the final layout
         self.setLayout(main_layout)
-        
-        # Show the window
-        self.show()
 
     
     def on_search_button_click(self) -> None:
@@ -156,6 +148,7 @@ class MainWindow(QWidget):
     def on_settings_button_click(self):
         if self.settings_window is None:
             self.settings_window = SettingsWindow()
+            self.settings_window.init_ui()
 
         # Show the window if it was hidden
         self.settings_window.show()

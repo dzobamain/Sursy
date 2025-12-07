@@ -11,7 +11,7 @@ from qt5ui.common import load_stylesheet, center_window
 from data.settings import Settings
 from data.json_io import save_to_json
 from config import Config
-from util.error import show_error
+from qt5ui.error import show_error
 
 class SettingsWindow(QWidget):
     # Window
@@ -27,19 +27,15 @@ class SettingsWindow(QWidget):
         self.config = Config()
         
         try:
-            self.setStyleSheet(load_stylesheet(self.test.prconfig["gui"]["style"]["mainwindow"]))
+            self.setStyleSheet(load_stylesheet(self.config.prconfig["gui"]["style"]["settingswindow"]))
         except Exception as e:
-            logger.error(f"Failed to load main window stylesheet: {e}")
             show_error(
                 parent=self,
                 title="Style Load Error",
                 message="Could not load main window stylesheet.",
-                details=str(e),
-                close_parent=True
+                details=str(e)
             )
             return 
-        
-        self.init_ui()
 
     def closeEvent(self, event: QCloseEvent) -> None:
         # Triggered when the window is closed

@@ -8,17 +8,19 @@ from qt5ui.mainwindow import MainWindow
 from util.log import logger
 
 def main(argv: List[str]) -> int:
-    logger.info("Enter")
-    
     app: QApplication = QApplication(argv)
-    window: MainWindow = MainWindow()  # Create window object
-    window.show()  # Show the window
-    app.exec_()
+    window: MainWindow = MainWindow()
     
-    logger.info("Program ended")
+    if not window.init_success:
+        return -1
+    
+    window.init_ui()
+    window.show()
+    app.exec_()
 
     return 0
 
 if __name__ == "__main__":
-    exit_code: int = main(sys.argv[1:])
+    exit_code: int = main(sys.argv)
+    logger.info("Program ended")
     sys.exit(exit_code)

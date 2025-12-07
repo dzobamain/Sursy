@@ -1,15 +1,15 @@
 # util/error.py
-from PyQt5.QtWidgets import QMessageBox, QApplication, QWidget
+from PyQt5.QtWidgets import QMessageBox, QWidget
+from PyQt5.QtCore import Qt
 from util.log import logger
+from qt5ui.common import center_window
 
 # Displays an error message box with optional details and actions.
 def show_error(
     parent: QWidget,
     title: str,
     message: str,
-    details: str = "",
-    close_parent: bool = False,
-    quit_app: bool = False
+    details: str = ""
 ):
     logger.warning(f"{title} — {message}")
 
@@ -25,15 +25,10 @@ def show_error(
         msg.setDetailedText(details)
 
     msg.setStandardButtons(QMessageBox.Ok)
-    msg.exec_()
-        
-    # window close
-    if close_parent and parent is not None:
-        logger.error("Closing parent window due to error.")
-        parent.close()
+    msg.setWindowFlag(Qt.WindowStaysOnTopHint, True)  # Keep the message box on top of all windows
 
-    # Quit application
-    if quit_app:
-        logger.critical("Application terminated due to a critical error.")
-        QApplication.quit()
+    msg.show() # Show so that Qt calculates the frameGeometry
+    center_window(msg)
+    msg.exec_() 
+
 
