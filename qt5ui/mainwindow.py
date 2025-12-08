@@ -13,6 +13,7 @@ from qt5ui.settingswindow import SettingsWindow
 from config import Config
 from data.settings import Settings
 from qt5ui.error import show_error
+from browser.browser import Browser
 
 class MainWindow(QWidget):
     # Window
@@ -37,6 +38,7 @@ class MainWindow(QWidget):
         self.settings_window = None
         self.settings = Settings()
         self.config = Config()
+        self.browser = Browser()
         
         # Style
         try:
@@ -46,12 +48,12 @@ class MainWindow(QWidget):
             show_error(
                 parent=self,
                 title="Style Load Error",
-                message="Could not load main window stylesheet.",
+                message="Could not load main window stylesheet",
                 details=str(e)
             )
             #self.init_success = False
             return
-    
+
     
     def closeEvent(self, event: QCloseEvent) -> None:
         # Triggered when the window is closed
@@ -71,7 +73,7 @@ class MainWindow(QWidget):
             show_error(
                 parent=self,
                 title="Warning",
-                message='Config has not ["program"]["name"].',
+                message='Config has not',
                 details=str(e),
                 close_parent=True
             )

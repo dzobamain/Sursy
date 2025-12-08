@@ -56,63 +56,54 @@ class SettingsWindow(QWidget):
         self.combobox_open_style = self.make_dynamic_combobox(self.settings.TAB_OPEN_STYLE_OPTIONS)
         self.add_row("Information display mode", self.combobox_open_style, layout)
         self.combobox_open_style.setCurrentIndex(self.settings.tab_open_style_value)
-
         self.combobox_open_style.currentIndexChanged.connect(
             lambda index: self.on_user_change("tab_open_style_value", index)
         )
 
-        # --- limit_count ---
+        # - limit_count
         self.line_limit_count = self.make_resizable_lineedit()
         self.add_row("Number of sources", self.line_limit_count, layout)
         self.line_limit_count.setText(str(self.settings.limit_count))
-
         self.line_limit_count.textChanged.connect(
             lambda text: self.on_user_change("limit_count", text)
         )
 
-        # --- min_page_rating ---
+        # - min_page_rating 
         self.line_min_page_rating = self.make_resizable_lineedit()
         self.add_row("Minimum source rating", self.line_min_page_rating, layout)
         self.line_min_page_rating.setText(str(self.settings.min_page_rating))
-
         self.line_min_page_rating.textChanged.connect(
             lambda text: self.on_user_change("min_page_rating", text)
         )
 
-        # --- max_page_rating ---
+        # - max_page_rating 
         self.line_max_page_rating = self.make_resizable_lineedit()
         self.add_row("Maximum source rating", self.line_max_page_rating, layout)
         self.line_max_page_rating.setText(str(self.settings.max_page_rating))
-
         self.line_max_page_rating.textChanged.connect(
             lambda text: self.on_user_change("max_page_rating", text)
         )
 
-        # --- checkbox_clear_input ---
+        # - checkbox_clear_input 
         self.checkbox_clear_input = QCheckBox()
         self.add_row("Clear input after search", self.checkbox_clear_input, layout)
         self.checkbox_clear_input.setChecked(self.settings.clear_input_after_search)
-
-        # ⚡ Connect using Qt.Checked comparison
         self.checkbox_clear_input.stateChanged.connect(
             lambda v: self.on_user_change("clear_input_after_search", bool(v))
         )
 
-        # --- combobox_language ---
+        # - combobox_language 
         self.combobox_language = self.make_dynamic_combobox(self.settings.LANGUAGE_PREFERENCE_OPTIONS)
         self.add_row("Search language", self.combobox_language, layout)
         self.combobox_language.setCurrentIndex(self.settings.language_preference_value)
-
         self.combobox_language.currentIndexChanged.connect(
             lambda index: self.on_user_change("language_preference_value", index)
         )
 
-        # --- checkbox_program_opinion ---
+        # - checkbox_program_opinion
         self.checkbox_program_opinion = QCheckBox()
         self.add_row("Program opinion", self.checkbox_program_opinion, layout)
         self.checkbox_program_opinion.setChecked(self.settings.program_opinion)
-
-        # ⚡ Connect using Qt.Checked comparison
         self.checkbox_program_opinion.stateChanged.connect(
             lambda v: self.on_user_change("program_opinion", bool(v))
         )
@@ -134,7 +125,7 @@ class SettingsWindow(QWidget):
         line_edit: QLineEdit = QLineEdit()
         line_edit.setMaxLength(3)  # max 3 digits 
         line_edit.setValidator(QIntValidator()) # Only int input
-        line_edit.setFixedHeight(40)  # height same as other fields 
+        line_edit.setFixedHeight(40) 
         line_edit.setAlignment(Qt.AlignCenter)  # center text
         line_edit.textChanged.connect(lambda text, le=line_edit: self.adjust_width_lineedit(le, text))
         self.adjust_width_lineedit(line_edit, "")
@@ -145,7 +136,7 @@ class SettingsWindow(QWidget):
     def make_dynamic_combobox(self, items: List[str]) -> QComboBox:
         combo: QComboBox = QComboBox()
         combo.addItems(items)
-        combo.setEditable(False)  # user can only select
+        combo.setEditable(False) # user can only select
 
         # Adjust field width under current text
         self.adjust_width_combobox(combo)
