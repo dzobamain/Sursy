@@ -36,9 +36,9 @@ class MainWindow(QWidget):
         
         self.init_success: bool = True
         self.settings_window = None
-        self.settings = Settings()
+        #self.settings = Settings()
         self.config = Config()
-        self.browser = Browser()
+        self.browser = None
         
         # Style
         try:
@@ -139,12 +139,23 @@ class MainWindow(QWidget):
 
     
     def on_search_button_click(self) -> None:
-        text: str = self.text_box.toPlainText()
+        if self.browser is None:
+            self.browser = Browser()
+            
+        if self.browser.browser_status is False:
+            show_error(
+                parent=self,
+                title="Browser Error",
+                message="Browser is not configured properly. Please check your settings."
+            )
+            return
         
+        """
+        text: str = self.text_box.toPlainText()
         if self.settings.clear_input_after_search:
             self.text_box.clear()
-        
         print(f"Your query: {text}")
+        """
     
     
     def on_settings_button_click(self):
