@@ -73,7 +73,7 @@ class MainWindow(QWidget):
             show_error(
                 parent=self,
                 title="Warning",
-                message='Config has not',
+                message='Config has not style for main window title, using default.',
                 details=str(e),
                 close_parent=True
             )
@@ -125,10 +125,7 @@ class MainWindow(QWidget):
         self.list_widget.setObjectName(self.SITE_LIST)  # For QSS selector
         self.list_widget.setSelectionMode(QAbstractItemView.SingleSelection)
 
-        # Test items
-        self.list_widget.addItems([
-            f"Site{i}: test" for i in range(21)
-        ])
+        # items
 
         # Add all widgets to the layout
         main_layout.addLayout(row_layout)
@@ -141,21 +138,14 @@ class MainWindow(QWidget):
     def on_search_button_click(self) -> None:
         if self.browser is None:
             self.browser = Browser()
-            
-        if self.browser.browser_status is False:
+        
+        if not self.browser.verify_browser_path():
             show_error(
                 parent=self,
                 title="Browser Error",
                 message="Browser is not configured properly. Please check your settings."
             )
-            return
-        
-        """
-        text: str = self.text_box.toPlainText()
-        if self.settings.clear_input_after_search:
-            self.text_box.clear()
-        print(f"Your query: {text}")
-        """
+        return
     
     
     def on_settings_button_click(self):

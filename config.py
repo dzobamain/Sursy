@@ -21,7 +21,7 @@ class Config:
         
         
     @staticmethod
-    def load_json(file_path: str = PROGRAM_CONFIG):
+    def load_json(file_path: str = PROGRAM_CONFIG) -> dict | None:
         path = Path(file_path)
         try:
             if not path.is_file():
